@@ -39,9 +39,9 @@
 
 <body>
 
-<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2018</h1>
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2023</h1>
 <h1 align="middle">Project 2: Mesh Edit</h1>
-<h2 align="middle">YOUR NAME</h2>
+<h2 align="middle">Shu-Ping Chen</h2>
 
 <br><br>
 
@@ -49,7 +49,11 @@
 
 <h2 align="middle">Overview</h2>
 <p>
-    YOUR RESPONSE GOES HERE
+    This project includes two parts: (1) Beizer Curves, and (2) Triangle Meshes and Half-Edge Data Structure. 
+    In the Bezier Curves part, I learn how to draw a curve by the control points of Beizer Curves. 
+    Also, I implement Bezier Surfaces that can draw a surface on the screen. 
+    In the second part, I learn how to use the half-edge data structure to represent an object. 
+    Furthermore, I implement flip and split functions for further mesh upsampling.
 </p>
 <br>
 
@@ -63,8 +67,19 @@
   Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    To implement Bezier curves, I implement Casteljau's algorithm. 
+    Figure1 shows the concept of Casteljau's algorithm. 
+    In the beginning, I have four control points b<sub>1</sub>, b<sub>2</sub>, b<sub>3</sub>, and b<sub>4</sub>. 
+    After the first step, I use linear interpolation to get b<sub>0</sub><sup>1</sup>, b<sub>1</sub><sup>1</sup>, and b<sub>2</sub><sup>1</sup>. 
+    The points remaining are one less than before. 
+    Then, I process the algorithm with the same approach that makes b<sub>0</sub><sup>1</sup>, b<sub>1</sub><sup>1</sup>, and b<sub>2</sub><sup>1</sup> into b<sub>0</sub><sup>2</sup> and b<sub>1</sub><sup>2</sup> by linear interpolation. 
+    This iteration will not stop until there is only one point left. 
+    This point in Figure 1 is b<sub>0</sub><sup>3</sup> and the bezier curve we want will pass through this point.
 </p>
+<div align="middle">
+    <img src="images/fig01.png" align="middle" width="50%" />
+    <figcaption>Figure 1. Concept of Casteljau's algorithm'</figcaption>
+</div>
 <br>
 
 
@@ -72,11 +87,19 @@
   Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. Use this Bezier curve for your screenshots below.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    Figure 2 shows six white control points I selected. 
+    To select six points, I modified the number of points in curve2.bzc and add one more point coordinate. 
+    Figure 3 shows the bezier curve created by my implementation. 
+    The blue points are the intermediate points calculated by linear interpolation. 
+    The red point is the final point and the green line is the bezier curve.
 </p>
 <!-- Example of including a single figure -->
 <div align="middle">
-  <img src="images/your_file.png" align="middle" width="50%">
+    <img src="images/fig02.png" align="middle" width="50%" />
+    <figcaption>Figure 2. Selected 6 control points'</figcaption>
+    <br />
+    <img src="images/fig03.png" align="middle" width="50%" />
+    <figcaption>Figure 3. Bezier curve created by 6 control points'</figcaption>
 </div>
 <br>
 
@@ -88,30 +111,34 @@
   <table style="width:100%">
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Level 0</figcaption>
+        <img src="images/fig04.png" align="middle" width="400px"/>
+        <figcaption>Figure 4. Level 0</figcaption>
       </td>
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Level 1</figcaption>
-      </td>
-    </tr>
-    <br>
-    <tr align="center">
-      <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Level 2</figcaption>
-      </td>
-      <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Level 3</figcaption>
+        <img src="images/fig05.png" align="middle" width="400px"/>
+        <figcaption>Figure 5. Level 1</figcaption>
       </td>
     </tr>
     <br>
     <tr align="center">
       <td>
-        <img src="images/your_file.png" align="middle" width="400px"/>
-        <figcaption>Level 4</figcaption>
+        <img src="images/fig06.png" align="middle" width="400px"/>
+        <figcaption>Figure 6. Level 2</figcaption>
+      </td>
+      <td>
+        <img src="images/fig07.png" align="middle" width="400px"/>
+        <figcaption>Figure 7. Level 3</figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr align="center">
+      <td>
+        <img src="images/fig08.png" align="middle" width="400px"/>
+        <figcaption>Figure 8. Level 4</figcaption>
+      </td>
+        <td>
+        <img src="images/fig09.png" align="middle" width="400px"/>
+        <figcaption>Figure 9. Level 5</figcaption>
       </td>
     </tr>
   </table>
@@ -123,8 +150,25 @@
   Show a screenshot of a slightly different Bezier curve by moving the original control points around and modifying the parameter \(t\) via mouse scrolling.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
-</p>  
+    In Figure 10, I scroll the mouse and change the parameter t. 
+    The result shows that the intermediate points move right because we calculate the next level point by linear interpolation ((1 - t) * b<sub>0</sub> + t * b<sub>1</sub>). 
+    Modifying t means changing the next level points. 
+    In Figure 11, I move the control points and make different bezier curve.
+</p>
+<div align="middle">
+    <table style="width:100%">
+        <tr align="center">
+            <td>
+                <img src="images/fig10.png" align="middle" width="400px" />
+                <figcaption>Figure 10. Modify parameter t</figcaption>
+            </td>
+            <td>
+                <img src="images/fig11.png" align="middle" width="400px" />
+                <figcaption>Figure 11. Move control points</figcaption>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
 
 
@@ -133,8 +177,26 @@
   Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to evaluate Bezier surfaces.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    In part 1, I create a bezier curve in 2D. In this part, I want to increase the bezier curve into a bezier surface in three dimensions.
+    The concept of implementing a bezier surface is to first create a bezier curve across one dimension and then use these curves to create a bezier surface across two dimensions.
+    Figure 12 and Figure 13 show the visualization of a bezier surface and the steps to create this bezier surface.
+    When implementing a bezier surface, I first focus on the u-axis, then create multiple bezier curves and final points as part 1 using linear interpolation.
+    After creating the bezier curves, I create other bezier curves focusing on the v-axis by linear interpolation.
 </p>
+    <div align="middle">
+    <table style="width:100%">
+        <tr align="center">
+            <td>
+                <img src="images/fig12.png" align="middle" width="400px" />
+                <figcaption>Figure 12. Visualization of bezier surface</figcaption>
+            </td>
+            <td>
+                <img src="images/fig13.png" align="middle" width="400px" />
+                <figcaption>Figure 13. Steps to create bezier surface</figcaption>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
 
 
@@ -142,8 +204,12 @@
   Show a screenshot of bez/teapot.bez (not .dae) evaluated by your implementation.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    After completing this part, the teapot bezier surface shows in Figure 14.
 </p>
+<div align="middle">
+    <img src="images/fig14.png" align="middle" width="50%" />
+    <figcaption>Figure 14. Teapot screenshot'</figcaption>
+</div>
 <br>
 
 
@@ -155,8 +221,19 @@
   Briefly explain how you implemented the area-weighted vertex normals.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    In this part, I want to calculate the normal of a vertex.
+    The concept of computing the normal is by iterating through all the faces that are connected to this vertex and calculating the area-weighted normal.
+    In this project, the meshes are stored in the half-edge data structure.
+    Therefore, getting all the neighboring triangles of the vertex is done by traversing all the half-edge.
+    The process of getting all the neighbor half-edges is shown in Figure 15. Then I need to compute the normal of each triangle.
+    To do so I use the cross product of two edge vectors in that triangle connected to the vertex.
+    Also, I want to do area-weighting, this can also be done by the cross-product since the edge vectors include the size of the triangle.
+    After adding all the normals, I perform normalization to get the average normal.
 </p>
+<div align="middle">
+    <img src="images/fig15.png" align="middle" width="50%" />
+    <figcaption>Figure 15. Traversing around a vertex</figcaption>
+</div>
 <br>
 
 
@@ -164,8 +241,25 @@
   Show screenshots of dae/teapot.dae (not .bez) comparing teapot shading with and without vertex normals. Use <kbd>Q</kbd> to toggle default flat shading and Phong shading.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    Figure 15 and Figure 16 show the visualization of the teapot without and with vertex normals. 
+    It is obvious that visualization with area-weighted vertex normal is smoother and more realistic. 
+    This is because, without vertex normals, the normal of each vertex is not affected by neighbor triangles. 
+    However, it is common that the neighbors have an impact on the vertex.
 </p>
+<div align="middle">
+    <table style="width:100%">
+        <tr align="center">
+            <td>
+                <img src="images/fig16.png" align="middle" width="400px" />
+                <figcaption>Figure 16. Teapot shading without vertex normals</figcaption>
+            </td>
+            <td>
+                <img src="images/fig17.png" align="middle" width="400px" />
+                <figcaption>Figure 17. Teapot shading with vertex normals</figcaption>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
 
 
@@ -174,8 +268,22 @@
   Briefly explain how you implemented the edge flip operation and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    In this part, I implement an edge flip operation using the half-edge data structure.
+    The concept of edge flip is shown in Figure 18.
+    The main idea is changing edge bc into edge ad.
+    To do so, I follow the concept in Figure 19.
+    The first step I do is to collect all the existing vertexes, edges, half-edges, and faces in the triangle.
+    Since the edge flip operation does not create new items, I do not have to initialize any new elements.
+    Then, I reassign the connection of all vertexes, edges, half-edges, and faces to match the result after an edge flip.
+    The mapping between before an edge flip and after an edge flip is shown in the left part of Figure 19.
 </p>
+<div align="middle">
+    <img src="images/fig18.png" align="middle" width="50%" />
+    <figcaption>Figure 18. Edge flip</figcaption>
+    <br />
+    <img src="images/fig19.png" align="middle" width="80%" />
+    <figcaption>Figure 19. Sudo code of edge flip</figcaption>
+</div>
 <br>
 
 
@@ -183,8 +291,23 @@
   Show screenshots of the teapot before and after some edge flips.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    As shown in Figure 20 and Figure 21 about teapot before and after some edge flips. 
+    In the red circle in Figure 21, some edges are flipped by edge flip.
 </p>
+<div align="middle">
+    <table style="width:100%">
+        <tr align="center">
+            <td>
+                <img src="images/fig20.png" align="middle" width="400px" />
+                <figcaption>Figure 20. Teapot before some edge flips</figcaption>
+            </td>
+            <td>
+                <img src="images/fig21.png" align="middle" width="400px" />
+                <figcaption>Figure 21. Teapot after some edge flips</figcaption>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
 
 
@@ -192,8 +315,15 @@
     Write about your eventful debugging journey, if you have experienced one.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    When implementing the edge flip operation, I made some mistakes when assigning the new property of outer triangle half-edges after the edge flip. 
+    The face of all the outer triangle half-edges should remain the same because the face they refer to is not the face in the current triangle. 
+    However, I assigned them to current triangles. The result in Figure 22 shows the bug in my previous implementation. 
+    There become some holes after two edge flips because the outside half-edges have the wrong faces.
 </p>
+<div align="middle">
+    <img src="images/fig22.png" align="middle" width="50%" />
+    <figcaption>Figure 22. Broken edge flip</figcaption>
+</div>
 <br>
 
 
@@ -202,8 +332,23 @@
   Briefly explain how you implemented the edge split operation and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    In this part, I implement another basic operation called edge split.
+    This is a common operation when it comes to local mesh editing.
+    The concept of edge split is shown in Figure 23.
+    The procedure of edge split is similar to edge flip.
+    First, I collect all the existing vertexes, edges, half-edges, and faces in the triangle.
+    These elements are the building block of future operations.
+    In contrast to edge flip, it is important to add new elements in edge split.
+    These elements are vertex m and the half-edges that connect to vertex m.
+    The position of m should be in the midpoint of point c and point b.
+    Then, I reassign the relationship of each element to make sure these elements are located in the position after the edge split.
+    One interesting implementation I do is in the collecting stage, I first assume m and b are in the same location.
+    So that I can reduce some assignments because the edges connected to m and b can be reused.
 </p>
+<div align="middle">
+    <img src="images/fig23.png" align="middle" width="50%" />
+    <figcaption>Figure 23. Edge split</figcaption>
+</div>
 <br>
 
 
@@ -211,8 +356,23 @@
     Show screenshots of a mesh before and after some edge splits. 
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    As shown in Figure 24 and Figure 25 about teapot before and after some edge splits. 
+    In the red circle in Figure 25, some triangles are split by edge split.
 </p>
+<div align="middle">
+    <table style="width:100%">
+        <tr align="center">
+            <td>
+                <img src="images/fig24.png" align="middle" width="400px" />
+                <figcaption>Figure 24. Teapot before some edge splits</figcaption>
+            </td>
+            <td>
+                <img src="images/fig25.png" align="middle" width="400px" />
+                <figcaption>Figure 25. Teapot after some edge splits</figcaption>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
 
 
@@ -220,8 +380,23 @@
     Show screenshots of a mesh before and after a combination of both edge splits and edge flips.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    As shown in Figure 24 and Figure 25 about teapot before and after some edge flips and edge splits.
+    In the red circle in Figure 25, some triangles are created by a combination of both edge splits and edge flips.
 </p>
+<div align="middle">
+    <table style="width:100%">
+        <tr align="center">
+            <td>
+                <img src="images/fig26.png" align="middle" width="400px" />
+                <figcaption>Figure 26. Teapot before some edge flips and edge splits</figcaption>
+            </td>
+            <td>
+                <img src="images/fig27.png" align="middle" width="400px" />
+                <figcaption>Figure 27. Teapot after some edge flips and edge splits</figcaption>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
 
 
@@ -229,8 +404,16 @@
     Write about your eventful debugging journey, if you have experienced one.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    When implementing the edge split operation, I also made some mistakes when assigning the new property to the existing half-edges after the edge split. 
+    This time I make the wrong assignment of the origin vertex of a half-edge. 
+    It turns out that the teapot after the edge split will result in holes that can see through the teapot. 
+    When I am tracking the bug, I find out that it always has a problem in the bottom right side of the triangle. 
+    Therefore I can locate the bug in that location.
 </p>
+<div align="middle">
+    <img src="images/fig28.png" align="middle" width="50%" />
+    <figcaption>Figure 28. Broken edge split</figcaption>
+</div>
 <br>
 
 
@@ -238,7 +421,7 @@
     If you have implemented support for boundary edges, show screenshots of your implementation properly handling split operations on boundary edges.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    I have not implemented support for boundary edges.
 </p>
 <br>
 
@@ -248,8 +431,26 @@
   Briefly explain how you implemented the loop subdivision and describe any interesting implementation / debugging tricks you have used.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    In this part, I implement loop subdivision. 
+    Loop subdivision is a technique to upsample the 3D meshes. 
+    I follow the concept of Figure 29, Figure 30, and Figure 31. 
+    The first step to doing the loop subdivision is to compute the new position of all the vertexes in the mesh. 
+    By traveling all the vertexes in the mesh, I compute the new position following the formula: (1 - n * u) * original_position + u * original_neighbor_position_sum. 
+    Then, I have to update the position of all the edges following the formula: 3/8 * (A + B) + 1/8 * (C + D). 
+    After these steps, I have to split all the existing edges by edge split in part 4. 
+    However, after the edge split, some edges may not be appropriate, therefore, I have to do edge flip on edges that connect between old and new vertexes. 
+    In the end, I will update all the vertexes to old because they all existed after this loop.
 </p>
+<div align="middle">
+    <img src="images/fig29.png" align="middle" width="50%" />
+    <figcaption>Figure 29. Broken edge split</figcaption>
+    <br />
+    <img src="images/fig30.png" align="middle" width="50%" />
+    <figcaption>Figure 30. Broken edge split</figcaption>
+    <br />
+    <img src="images/fig31.png" align="middle" width="50%" />
+    <figcaption>Figure 31. Broken edge split</figcaption>
+</div>
 <br>
 
 
@@ -257,8 +458,39 @@
   Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    After subdivision, sharp corners and edges get smoothed out, but we also lose a lot of their volume.
+    As shown in Figure 32 to Figure 35.
+    The edges become smoother and smoother.
 </p>
+<div align="middle">
+    <img src="images/fig32.png" align="middle" width="50%" />
+    <figcaption>Figure 32.</figcaption>
+    <br />
+    <img src="images/fig33.png" align="middle" width="50%" />
+    <figcaption>Figure 33.</figcaption>
+    <br />
+    <img src="images/fig34.png" align="middle" width="50%" />
+    <figcaption>Figure 34.</figcaption>
+    <img src="images/fig35.png" align="middle" width="50%" />
+    <figcaption>Figure 35.</figcaption>
+</div>
+<p>
+    Therefore, I make some edge split in one of the corner of the intersect to lessen this effect.
+    The result shown in Figure 36 to Figure 39.
+    It is obvious that the trick worked.
+</p>
+<div align="middle">
+    <img src="images/fig36.png" align="middle" width="50%" />
+    <figcaption>Figure 36.</figcaption>
+    <br />
+    <img src="images/fig37.png" align="middle" width="50%" />
+    <figcaption>Figure 37.</figcaption>
+    <br />
+    <img src="images/fig38.png" align="middle" width="50%" />
+    <figcaption>Figure 38.</figcaption>
+    <img src="images/fig39.png" align="middle" width="50%" />
+    <figcaption>Figure 39.</figcaption>
+</div>
 <br>
 
 
@@ -266,8 +498,37 @@
   Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    As shown in Figure 32 to Figure 35, the cube becomes slightly asymmetric.
 </p>
+<div align="middle">
+    <img src="images/fig40.png" align="middle" width="50%" />
+    <figcaption>Figure 40.</figcaption>
+    <br />
+    <img src="images/fig41.png" align="middle" width="50%" />
+    <figcaption>Figure 41.</figcaption>
+    <br />
+    <img src="images/fig42.png" align="middle" width="50%" />
+    <figcaption>Figure 42.</figcaption>
+    <img src="images/fig43.png" align="middle" width="50%" />
+    <figcaption>Figure 43.</figcaption>
+</div>
+<p>
+    The idea I try is to ensure that the mesh is symmetrical in the begining.
+    The easiest way to ensure this is to simply split the edge on each face of the cube, so we have x's all the way around.
+    As shown in Figure 44 to Figure 47, the images is symmetric.
+</p>
+<div align="middle">
+    <img src="images/fig44.png" align="middle" width="50%" />
+    <figcaption>Figure 44.</figcaption>
+    <br />
+    <img src="images/fig45.png" align="middle" width="50%" />
+    <figcaption>Figure 45.</figcaption>
+    <br />
+    <img src="images/fig46.png" align="middle" width="50%" />
+    <figcaption>Figure 46.</figcaption>
+    <img src="images/fig47.png" align="middle" width="50%" />
+    <figcaption>Figure 47.</figcaption>
+</div>
 <br>
 
 
@@ -275,7 +536,7 @@
     If you have implemented any extra credit extensions, explain what you did and document how they work with screenshots.
 </b>
 <p>
-    YOUR RESPONSE GOES HERE
+    I have not implemented extra credit extensions.
 </p>
 <br>
 
